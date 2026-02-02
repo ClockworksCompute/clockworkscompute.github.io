@@ -16,87 +16,80 @@
         background: #ffffff;
       }
       main { max-width: 820px; margin: 0 auto; }
-      h1 { font-size: 20px; margin: 0 0 18px 0; }
-      h2 { font-size: 16px; margin: 26px 0 10px 0; }
+      h1 { font-size: 20px; margin: 0 0 8px 0; }
       p { margin: 0 0 14px 0; font-size: 16px; }
-      ul { margin: 0 0 14px 18px; }
-      li { margin: 6px 0; }
       a { color: #0b5fff; text-decoration: none; }
       a:hover { text-decoration: underline; }
       .muted { color: #3a475a; }
       .back { margin-bottom: 22px; }
       .label { font-weight: 700; }
+      pre.manifesto {
+        margin: 18px 0 0 0;
+        padding: 18px;
+        background: rgba(26, 54, 93, 0.04);
+        border: 1px solid rgba(26, 54, 93, 0.18);
+        border-radius: 10px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.55;
+      }
     </style>
   </head>
   <body>
     <main>
       <div class="back"><a href="/">← Home</a></div>
 
-      <h1>Clockworks Manifesto</h1>
-      <p class="muted">December 2025</p>
+      <h1>Clockworks Manifesto!</h1>
+      <p class="muted">Original draft (Dec 2025). PDF: <a href="/manifesto/clockworks_manifesto.pdf">download</a></p>
 
-      <p>
-        Modern GPU programming is backwards.
+      <pre class="manifesto">1st Dec 2025
+Today, programming GPU sucks! First your code just doesn’t run. Then it stalls
+and deadlocks. Then you accidentally access invalid memory, boom error again.
+When you finally get it working, efficiency is like 10%. Then you study a lot,
+learn about cache hierarchies, and bank conflicts and the number of tensor cores
+your GPU has.
+You work a lot, find all the right launch parameters, fuse all the kernels, figure
+out the right memory layout and access patterns, put everything together, fix
+all the bugs! Finally 70% efficiency!
+At this point instead of pushing efficiency up further to 90%, you think it would
+be better to add more GPUs. So you rent a server with 8 GPUs instead of 1.
+More compute, great! Not so soon, you run your original code, and turns out
+you are getting only 15% of the available compute!
+So you learn about inter GPU communication, remote atomics so put everything
+together, and looks like you have got it. And indeed you have, for that specific
+GPU, for that specific configuration, for that specific algorithm.
+Different configuration, different algorithm, different GPU, you have to do it all
+over again!
+That’s why we are building Clockworks!
+Clockworks aim to create the perfect GPU software by the power of
+AI , perfect GPU software which:
+
+- Doesn’t error out or deadlocks (for single GPU, multi-GPU or multi-node
+    clusters)
+- Is algorithmically and numerically correct
+- AND the code runs as close to the theoretical max performance as possible
+**Clockworks do this by:**
+- Going as close to the metal as possible, to remove all the abstraction
+overhead
+- Accurately modeling the hardware; FLOPS, caches, memory bandwidth,
+network latency, everything, layout & configuration in every way
+- And simulating correctness and performance at compile time instead of
+runtime so that you know about the correctness & performance of your
+code before you even touch the hardware!
+This is GPU code equivalent of testing your rockets in simulation before launching.
+Because GPUs can be as (actually more!) expensive than rockets!
+-
+
+
+Harsh Gupta
+hargup.in</pre>
+
+      <p class="muted" style="margin-top: 18px;">
+        Contact: <a href="mailto:harsh@clockworks-compute.com">harsh@clockworks-compute.com</a>
+        · DM: <a href="https://x.com/hargup13">x.com/hargup13</a>
       </p>
-
-      <p>
-        We take the most expensive machines humanity has ever built and we treat them like a slot machine:
-        write code, run it, pray it doesn’t deadlock, profile it, tweak it, rerun it—until we either get “good enough”
-        or we buy more GPUs.
-      </p>
-
-      <p>
-        That workflow made sense when GPUs were cheap and models were small. It breaks in the era of trillion‑parameter training,
-        multi‑node clusters, and $1B runs.
-      </p>
-
-      <p><span class="label">Clockworks exists to make GPU compute a controllable, provable system.</span></p>
-
-      <h2>The problem (what’s actually broken)</h2>
-      <p>GPU software fails in three ways that compound:</p>
-      <ul>
-        <li><span class="label">Reliability</span>: hangs, deadlocks, invalid memory, nondeterministic race conditions.</li>
-        <li><span class="label">Correctness</span>: silent numerical bugs that only show up after weeks of training.</li>
-        <li><span class="label">Performance</span>: 10–40% utilization is common; the rest is stranded silicon.</li>
-      </ul>
-      <p>
-        Worse: the moment you change GPU / topology / batch / algorithm, you’re back to zero.
-      </p>
-
-      <h2>The promise (what “perfect GPU software” means)</h2>
-      <p>Clockworks aims to generate GPU programs that are:</p>
-      <ul>
-        <li><span class="label">Unbreakable</span>: no deadlocks, no stalls—single GPU, multi‑GPU, multi‑node.</li>
-        <li><span class="label">Correct</span>: algorithmically and numerically faithful.</li>
-        <li><span class="label">Near‑peak</span>: runs as close to theoretical limits as physics allows.</li>
-      </ul>
-      <p>Not for one configuration. For the configuration you actually have.</p>
-
-      <h2>The method (how we do it)</h2>
-      <p>Clockworks does not guess at runtime. We prove at compile time.</p>
-      <ul>
-        <li><span class="label">Go close to the metal</span> to remove abstraction overhead and regain control.</li>
-        <li><span class="label">Model the hardware</span>: FLOPS, caches, bandwidth, latency, topology.</li>
-        <li><span class="label">Simulate execution at compile time</span>: correctness and performance before hardware.</li>
-        <li><span class="label">Use AI as search</span> over schedules, layouts, fusions, launch parameters.</li>
-      </ul>
-
-      <h2>The outcome (why this matters)</h2>
-      <ul>
-        <li>Iteration cycles collapse (minutes instead of days).</li>
-        <li>Utilization rises (you buy fewer GPUs for the same throughput).</li>
-        <li>Clusters become operating systems—not fragile stacks of scripts.</li>
-      </ul>
-      <p><span class="label">This is hardware sovereignty.</span></p>
-
-      <h2>Contact</h2>
-      <p>
-        <a href="mailto:harsh@clockworks-compute.com">harsh@clockworks-compute.com</a>
-        <span class="muted">or DM</span>
-        <a href="https://x.com/">x.com/&lt;yourhandle&gt;</a>
-      </p>
-
-      <p class="muted">— Harsh Gupta</p>
     </main>
   </body>
 </html>
